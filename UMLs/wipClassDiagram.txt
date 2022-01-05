@@ -1,0 +1,74 @@
+@startuml
+class PLOTTABLE_ENTITY {
+  ID: int
+  Identifier: string
+  Classification: EClassification
+  Subclassification: EClassification
+  Longitude /decimal format meters/: float
+  Latitude /decimal format meters/: float
+  Elevation /meters/: int
+  Last_Update /milli seconds/: Unsigned Long
+  Armed: bool
+  Hostility: EHostility
+  GetDistanceIgnoreElevation()
+  GetDistance()
+}
+
+PLOTTABLE_ENTITY <|-- MOVEABLE_ENTITY
+
+class MOVEABLE_ENTITY {
+   Bearing /degrees /0 <= x < 360//: float
+   Speed knots: float
+   Heading /degrees /0 <= x < 360//:  float
+}
+
+PLOTTABLE_ENTITY <|.. EClassification
+
+class EClassification {
+   Land: ELandSubclassification
+   Sea: ESeaSubclassification
+   SubSurface: ESubSurfaceSubclassification
+   Air: EAirSubclassification
+}
+
+EClassification <|.. ELandSubclassification
+
+class ELandSubclassification {
+   Classification: "Land"
+   Radar: "Radar"
+   etc
+}
+
+EClassification <|.. ESeaSubclassification
+
+class ESeaSubclassification {
+   Classification: "Sea"
+   Carrier: "Air Carrier"
+   etc
+}
+
+EClassification <|.. ESubSurfaceSubclassification
+
+class ESubSurfaceSubclassification {
+   Classification: "SubSurface"
+   Submarine: "Submarine"
+   etc
+}
+
+EClassification <|.. EAirSubclassification
+
+class EAirSubclassification {
+   Classification: "Air"
+   Recon: "Recon"
+   etc
+}
+
+PLOTTABLE_ENTITY <|.. EHostility
+
+class EHostility {
+   Hostile: "Hostile"
+   Neutral: "Neutral"
+   Friendly: "Friendly"
+   Unknown: "Unknown"
+}
+@enduml
